@@ -1,35 +1,5 @@
 import Section, { Eyebrow } from './ui/Section'
-
-const benefits = [
-  {
-    title: 'Todas as fontes num lugar só',
-    desc: 'Serasa, Boa Vista, Quod, Bacen SCR e Receita numa consulta única. Chega de abrir cinco sistemas.',
-  },
-  {
-    title: 'Análise financeira com IA',
-    desc: 'Balanço Patrimonial, DRE e faturamento lidos pela IA para um parecer de crédito mais preciso.',
-  },
-  {
-    title: 'Mais simples',
-    desc: 'Feito para o dia a dia da PME, sem necessidade de time técnico.',
-  },
-  {
-    title: 'Mais barato',
-    desc: 'Uma fração do que você gasta hoje em consultas avulsas e retrabalho.',
-  },
-  {
-    title: 'Automação 100% personalizada',
-    desc: 'Regras de crédito e cobrança no jeito do seu negócio.',
-  },
-  {
-    title: 'Rastreabilidade e controle',
-    desc: 'Histórico completo para a gestão de inadimplência.',
-  },
-  {
-    title: 'Suporte humanizado',
-    desc: 'Gente de verdade ajudando, não só chatbot.',
-  },
-]
+import { useLanguage } from '../i18n/LanguageContext'
 
 function Check() {
   return (
@@ -46,22 +16,33 @@ function Check() {
 }
 
 export default function Benefits() {
+  const { t } = useLanguage()
+  const b = t.benefits
+
   return (
     <Section id="beneficios" alt>
       <div className="reveal mx-auto max-w-2xl text-center">
-        <Eyebrow>Diferenciais</Eyebrow>
+        <Eyebrow>{b.eyebrow}</Eyebrow>
         <h2 className="text-3xl font-bold sm:text-4xl">
-          Por que PMEs trocam a consulta avulsa pela{' '}
-          <span className="text-brand-gradient">Lenext</span>.
+          {b.titlePre}
+          <span className="text-brand-gradient">{b.titleHighlight}</span>
+          {b.titleEnd}
         </h2>
       </div>
 
       <div className="reveal-group mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {benefits.map((b) => (
-          <div key={b.title} className="elev rounded-2xl border border-line bg-ink-card p-6">
+        {b.items.map((item, idx) => (
+          <div
+            key={item.title}
+            className={`elev card-hover rounded-2xl border bg-ink-card p-6 ${
+              idx === 0
+                ? 'border-brand-purple/40 ring-brand-glow sm:col-span-2 sm:p-8'
+                : 'border-line'
+            }`}
+          >
             <Check />
-            <h3 className="mt-4 text-lg font-bold">{b.title}</h3>
-            <p className="mt-2 text-sm text-mist">{b.desc}</p>
+            <h3 className={`mt-4 font-bold ${idx === 0 ? 'text-xl' : 'text-lg'}`}>{item.title}</h3>
+            <p className={`mt-2 text-mist ${idx === 0 ? 'max-w-xl text-base' : 'text-sm'}`}>{item.desc}</p>
           </div>
         ))}
       </div>

@@ -1,4 +1,5 @@
 import Section, { Eyebrow } from './ui/Section'
+import { useLanguage } from '../i18n/LanguageContext'
 
 /* Ícones inline */
 const Icon = {
@@ -113,12 +114,12 @@ function AiFlowGraphic() {
   )
 }
 
-function NodeChip({ icon, label, accent }) {
+function NodeChip({ icon, label, iconClassName }) {
   return (
     <div className="flex items-center gap-3 rounded-xl border border-line bg-ink-soft px-3 py-2.5">
       <span
-        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-white ${
-          accent ?? 'bg-brand-gradient'
+        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
+          iconClassName ?? 'bg-brand-gradient text-white'
         }`}
       >
         {icon}
@@ -150,7 +151,7 @@ function Connector() {
   )
 }
 
-function Hub() {
+function Hub({ badge, desc }) {
   return (
     <div className="flex flex-col items-center justify-center gap-2 rounded-2xl border-2 border-brand-purple/40 bg-ink-card p-6 ring-brand-glow lg:w-60">
       <span className="text-2xl font-extrabold tracking-tight">
@@ -159,46 +160,46 @@ function Hub() {
         <span className="text-fg">T</span>
       </span>
       <span className="flex items-center gap-1.5 rounded-full bg-brand-gradient px-3 py-1 text-xs font-semibold text-white">
-        {Icon.sparkles} IA proprietária
+        {Icon.sparkles} {badge}
       </span>
-      <p className="mt-1 text-center text-xs text-mist">Cruza todos os birôs e fontes em segundos</p>
+      <p className="mt-1 text-center text-xs text-mist">{desc}</p>
       <AiFlowGraphic />
     </div>
   )
 }
 
 export default function IntegrationFlow() {
+  const { t } = useLanguage()
+  const f = t.integrationFlow
+
   return (
     <Section id="integracoes" alt>
       <div className="reveal mx-auto max-w-2xl text-center">
-        <Eyebrow>Integrações &amp; Automação</Eyebrow>
+        <Eyebrow>{f.eyebrow}</Eyebrow>
         <h2 className="text-3xl font-bold sm:text-4xl">
-          Canais, birôs e IA em <span className="text-brand-gradient">um só fluxo</span>.
+          {f.titlePre}
+          <span className="text-brand-gradient">{f.titleHighlight}</span>.
         </h2>
-        <p className="mt-3 text-mist">
-          Conectamos WhatsApp, birôs de crédito, Bacen SCR e seus sistemas. A IA do LETMESEE analisa
-          até balanço, DRE e faturamento — e devolve parecer, comprometimento de crédito e cobrança,
-          automaticamente.
-        </p>
+        <p className="mt-3 text-mist">{f.desc}</p>
       </div>
 
       <div className="reveal-group mt-12 grid gap-6 lg:grid-cols-[1fr_auto_auto_auto_1fr] lg:items-center">
-        <Group title="Canais & Fontes">
-          <NodeChip icon={Icon.whatsapp} label="WhatsApp" accent="bg-[#25D366]" />
-          <NodeChip icon={Icon.bureau} label="Birôs: Serasa, Boa Vista, Quod" />
-          <NodeChip icon={Icon.bacen} label="Bacen SCR" />
-          <NodeChip icon={Icon.api} label="ERPs & APIs" />
+        <Group title={f.groupSources}>
+          <NodeChip icon={Icon.whatsapp} label={f.nodes.whatsapp} iconClassName="bg-[#25D366] text-white" />
+          <NodeChip icon={Icon.bureau} label={f.nodes.bureau} iconClassName="border border-[#4b4b63]/60 bg-white text-[#4b4b63]" />
+          <NodeChip icon={Icon.bacen} label={f.nodes.bacen} iconClassName="border border-[#4b4b63]/60 bg-white text-[#4b4b63]" />
+          <NodeChip icon={Icon.api} label={f.nodes.api} iconClassName="border border-[#4b4b63]/60 bg-white text-[#4b4b63]" />
         </Group>
 
         <Connector />
-        <Hub />
+        <Hub badge={f.hubBadge} desc={f.hubDesc} />
         <Connector />
 
-        <Group title="Decisões & Ações">
-          <NodeChip icon={Icon.parecer} label="Parecer de crédito automático" />
-          <NodeChip icon={Icon.gauge} label="Comprometimento de crédito" />
-          <NodeChip icon={Icon.finance} label="Balanço, DRE e faturamento por IA" />
-          <NodeChip icon={Icon.cobranca} label="Cobrança & monitoramento" />
+        <Group title={f.groupDecisions}>
+          <NodeChip icon={Icon.parecer} label={f.nodes.parecer} iconClassName="bg-[#5b7a9e] text-white" />
+          <NodeChip icon={Icon.gauge} label={f.nodes.gauge} iconClassName="bg-[#5b7a9e] text-white" />
+          <NodeChip icon={Icon.finance} label={f.nodes.finance} iconClassName="bg-[#5b7a9e] text-white" />
+          <NodeChip icon={Icon.cobranca} label={f.nodes.cobranca} iconClassName="bg-[#5b7a9e] text-white" />
         </Group>
       </div>
     </Section>

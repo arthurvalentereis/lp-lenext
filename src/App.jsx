@@ -3,8 +3,9 @@ import Header from './components/Header'
 import Hero from './components/Hero'
 import IntegrationsBar from './components/IntegrationsBar'
 import ProblemSolution from './components/ProblemSolution'
+import HowItWorks from './components/HowItWorks'
 import Results from './components/Results'
-import CreditEngine from './components/CreditEngine'
+import Features from './components/Features'
 import IntegrationFlow from './components/IntegrationFlow'
 import ProductShowcase from './components/ProductShowcase'
 import Benefits from './components/Benefits'
@@ -25,11 +26,14 @@ export default function App() {
       els.forEach((el) => el.classList.add('is-visible'))
       return
     }
-    // Alterna a animação ao entrar/sair da viewport (anima indo e voltando).
+    // Anima apenas na primeira entrada; re-animar ao rolar de volta é ruído.
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          entry.target.classList.toggle('is-visible', entry.isIntersecting)
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible')
+            io.unobserve(entry.target)
+          }
         })
       },
       { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
@@ -41,16 +45,20 @@ export default function App() {
   return (
     <>
       <Header />
+      {/* Ordem segue a sequência de persuasão: promessa → prova (logos de
+          clientes no topo) → dor → como funciona → números → produto →
+          diferenciais → depoimentos → segurança → preço → objeções → CTA. */}
       <main>
         <Hero />
-        <IntegrationsBar />
+        <ClientLogos />
         <ProblemSolution />
+        <HowItWorks />
         <Results />
-        <CreditEngine />
+        <Features />
         <IntegrationFlow />
+        <IntegrationsBar />
         <ProductShowcase />
         <Benefits />
-        <ClientLogos />
         <Testimonials />
         <Security />
         <Pricing />

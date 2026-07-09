@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import Button from './ui/Button'
-import { config, whatsappLink } from '../config'
+import { config, buildWhatsappLink } from '../config'
+import { useLanguage } from '../i18n/LanguageContext'
 
 export default function ContactCTA() {
+  const { t } = useLanguage()
+  const c = t.contactCTA
   const [sent, setSent] = useState(false)
+  const whatsappLink = buildWhatsappLink(t.whatsappMessage)
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -22,13 +26,10 @@ export default function ContactCTA() {
       <div className="reveal-group relative mx-auto grid w-full max-w-5xl items-center gap-12 lg:grid-cols-2">
         <div>
           <h2 className="text-3xl font-bold sm:text-4xl">
-            Pare de vender no escuro.{' '}
-            <span className="text-brand-gradient">Comece a decidir com dado.</span>
+            {c.titlePre}
+            <span className="text-brand-gradient">{c.titleHighlight}</span>
           </h2>
-          <p className="mt-4 text-lg text-mist">
-            Fale com um consultor e veja o LETMESEE aplicado ao seu cenário. Resposta em até 1 dia
-            útil, sem compromisso.
-          </p>
+          <p className="mt-4 text-lg text-mist">{c.desc}</p>
           <a
             href={whatsappLink}
             target="_blank"
@@ -38,7 +39,7 @@ export default function ContactCTA() {
             <svg className="h-5 w-5 text-brand-orange" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1-.4-.1-.9-.3-1.6-.6-2.8-1.2-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 .9-2.2.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.1.1.3 0 .5l-.4.6c-.2.2-.3.4-.1.7.2.3.9 1.4 1.9 2.3 1.3 1.1 2.3 1.4 2.6 1.6.2.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.9.9c.3.2.5.2.5.4.1.1.1.6-.1 1.1z" />
             </svg>
-            Prefere conversar agora? Chame no WhatsApp
+            {c.whatsappCta}
           </a>
         </div>
 
@@ -54,28 +55,25 @@ export default function ContactCTA() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold">Recebemos seu contato!</h3>
-              <p className="mt-2 text-mist">Um consultor falará com você em breve.</p>
+              <h3 className="text-xl font-bold">{c.sentTitle}</h3>
+              <p className="mt-2 text-mist">{c.sentDesc}</p>
               {config.calendlyUrl && (
                 <Button href={config.calendlyUrl} target="_blank" rel="noopener noreferrer" className="mt-5">
-                  Prefere já agendar? Escolha um horário
+                  {c.calendlyCta}
                 </Button>
               )}
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
-              <h3 className="text-xl font-bold">Falar com um consultor</h3>
-              <Field label="Nome" name="nome" type="text" placeholder="Seu nome" required />
-              <Field label="Empresa" name="empresa" type="text" placeholder="Nome da empresa" required />
-              <Field label="E-mail corporativo" name="email" type="email" placeholder="voce@empresa.com.br" required />
-              <Field label="WhatsApp" name="telefone" type="tel" placeholder="(00) 00000-0000" required />
+              <h3 className="text-xl font-bold">{c.formTitle}</h3>
+              <Field label={c.fields.nome.label} name="nome" type="text" placeholder={c.fields.nome.placeholder} required />
+              <Field label={c.fields.empresa.label} name="empresa" type="text" placeholder={c.fields.empresa.placeholder} required />
+              <Field label={c.fields.email.label} name="email" type="email" placeholder={c.fields.email.placeholder} required />
+              <Field label={c.fields.telefone.label} name="telefone" type="tel" placeholder={c.fields.telefone.placeholder} required />
               <Button as="button" type="submit" className="w-full">
-                Quero falar com um consultor
+                {c.submitCta}
               </Button>
-              <p className="text-center text-xs text-mist">
-                Ao enviar, você concorda em ser contatado pela Lenext. Seus dados são tratados
-                conforme a LGPD.
-              </p>
+              <p className="text-center text-xs text-mist">{c.disclaimer}</p>
             </form>
           )}
         </div>

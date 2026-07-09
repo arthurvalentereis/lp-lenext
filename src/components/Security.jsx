@@ -1,30 +1,25 @@
 import Section, { Eyebrow } from './ui/Section'
-
-const items = [
-  { title: 'ISO 27001', desc: 'Gestão de segurança da informação certificada.' },
-  { title: 'Conformidade LGPD', desc: 'Tratamento de dados dentro da lei.' },
-  { title: 'Parcerias oficiais', desc: 'Integração oficial com os birôs e ERPs.' },
-  { title: 'Dados na nuvem', desc: 'Tudo centralizado em ambiente cloud seguro, auditável e sempre disponível.' },
-]
+import { useLanguage } from '../i18n/LanguageContext'
 
 export default function Security() {
+  const { t } = useLanguage()
+  const s = t.security
+
   return (
     <Section id="seguranca" alt>
       <div className="grid items-center gap-12 lg:grid-cols-2">
         <div className="reveal">
-          <Eyebrow>Segurança e conformidade</Eyebrow>
+          <Eyebrow>{s.eyebrow}</Eyebrow>
           <h2 className="text-3xl font-bold sm:text-4xl">
-            Seus dados de crédito tratados com o{' '}
-            <span className="text-brand-gradient">rigor que o assunto exige</span>.
+            {s.titlePre}
+            <span className="text-brand-gradient">{s.titleHighlight}</span>
+            {s.titleEnd}
           </h2>
-          <p className="mt-4 text-mist">
-            Para quem decide na PME, segurança de dados não é detalhe. A Lenext opera com
-            certificação, conformidade legal e parcerias oficiais.
-          </p>
+          <p className="mt-4 text-mist">{s.desc}</p>
         </div>
         <div className="reveal-group grid gap-4 sm:grid-cols-2">
-          {items.map((i) => (
-            <div key={i.title} className="elev rounded-2xl border border-line bg-ink-card p-6">
+          {s.items.map((i) => (
+            <div key={i.title} className="elev card-hover rounded-2xl border border-line bg-ink-card p-6">
               <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg border border-brand-purple/40 bg-brand-purple/10">
                 <svg className="h-5 w-5 text-brand-orange" viewBox="0 0 20 20" fill="currentColor">
                   <path

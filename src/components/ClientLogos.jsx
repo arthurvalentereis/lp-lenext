@@ -1,40 +1,42 @@
-import Section, { Eyebrow } from './ui/Section'
+import { useLanguage } from '../i18n/LanguageContext'
 
+// Faixa de prova social logo abaixo do hero (padrão AgRisk/Pipefy):
+// marquee infinito de logos de clientes, pausa no hover.
 const logos = [
   { src: '/cli-dancor.webp', alt: 'Dancor' },
   { src: '/cli-centro-oeste.webp', alt: 'Grupo Centro Oeste' },
   { src: '/cli-satisloh.webp', alt: 'Satisloh' },
   { src: '/cli-pion-gplus.webp', alt: 'Pion G Plus' },
   { src: '/cli-leroy-merlin.webp', alt: 'Leroy Merlin' },
-  { src: '/cli-totvs.webp', alt: 'TOTVS' },
-  { src: '/cli-nomus.webp', alt: 'Nomus' },
+  { src: '/cli-sicredi.png', alt: 'Sicredi' },
   { src: '/cli-zona-sul.webp', alt: 'Zona Sul' },
   { src: '/cli-asaas.webp', alt: 'ASAAS' },
   { src: '/cli-le-leader.webp', alt: 'LE Leader' },
-  { src: '/cli-sankhya.webp', alt: 'Sankhya' },
-  { src: '/cli-sap.webp', alt: 'SAP' },
 ]
 
 export default function ClientLogos() {
+  const { t } = useLanguage()
   return (
-    <Section id="clientes">
-      <div className="reveal mx-auto max-w-2xl text-center">
-        <Eyebrow>Quem confia na Lenext</Eyebrow>
-        <h2 className="text-2xl font-bold sm:text-3xl">
-          Marcas que já decidem crédito com a <span className="text-brand-gradient">Lenext</span>.
-        </h2>
-      </div>
+    <section id="clientes" className="border-y border-line/60 bg-ink-soft py-12">
+      <p className="reveal mb-8 px-5 text-center text-sm font-medium uppercase tracking-wider text-mist">
+        {t.clientLogos.caption}
+      </p>
 
-      <div className="reveal-group mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-        {logos.map((l) => (
-          <div
-            key={l.alt}
-            className="overflow-hidden rounded-xl border border-line transition hover:-translate-y-0.5 hover:shadow-md"
-          >
-            <img src={l.src} alt={l.alt} className="w-full" loading="lazy" />
-          </div>
-        ))}
+      <div className="marquee-mask overflow-hidden">
+        {/* lista duplicada: o keyframe anda -50% e o loop fecha sem emenda */}
+        <div className="marquee items-center gap-14 pr-14">
+          {[...logos, ...logos].map((l, idx) => (
+            <img
+              key={`${l.alt}-${idx}`}
+              src={l.src}
+              alt={l.alt}
+              aria-hidden={idx >= logos.length}
+              className="h-12 w-auto max-w-[150px] shrink-0 rounded-lg object-contain opacity-80 transition hover:opacity-100 sm:h-14"
+              loading="lazy"
+            />
+          ))}
+        </div>
       </div>
-    </Section>
+    </section>
   )
 }

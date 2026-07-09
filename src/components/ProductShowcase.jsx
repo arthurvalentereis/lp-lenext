@@ -1,18 +1,21 @@
 import Section, { Eyebrow } from './ui/Section'
 import ProductCarousel from './ProductCarousel'
+import { useLanguage } from '../i18n/LanguageContext'
 
 export default function ProductShowcase() {
+  const { t } = useLanguage()
+  const p = t.productShowcase
+
   return (
     <Section id="sistema">
       <div className="reveal mx-auto max-w-2xl text-center">
-        <Eyebrow>Veja o sistema por dentro</Eyebrow>
+        <Eyebrow>{p.eyebrow}</Eyebrow>
         <h2 className="text-3xl font-bold sm:text-4xl">
-          Todo o controle da sua carteira em{' '}
-          <span className="text-brand-gradient">um só painel</span>.
+          {p.titlePre}
+          <span className="text-brand-gradient">{p.titleHighlight}</span>
+          {p.titleEnd}
         </h2>
-        <p className="mt-3 text-mist">
-          Crédito, cobrança, recebíveis, Bacen SCR e leads — navegue pelas telas reais do LETMESEE.
-        </p>
+        <p className="mt-3 text-mist">{p.desc}</p>
       </div>
 
       <div className="reveal mt-12">

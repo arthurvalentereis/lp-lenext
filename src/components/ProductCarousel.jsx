@@ -1,17 +1,20 @@
 import { useEffect, useRef, useState } from 'react'
+import { useLanguage } from '../i18n/LanguageContext'
 
-const slides = [
-  { src: '/painel-credito.webp', url: 'app.lenext.com.br/credito', label: 'Análise de crédito' },
-  { src: '/painel-cobranca.webp', url: 'app.lenext.com.br/cobranca', label: 'Painel de cobrança' },
-  { src: '/parcelas-receber.webp', url: 'app.lenext.com.br/recebiveis', label: 'Parcelas a receber' },
-  { src: '/relatorio-bacen.webp', url: 'app.lenext.com.br/bacen-scr', label: 'Relatório Bacen SCR' },
-  { src: '/painel-leads.webp', url: 'app.lenext.com.br/leads', label: 'Painel de leads' },
+const slideMeta = [
+  { src: '/painel-credito.webp', url: 'app.lenext.com.br/credito' },
+  { src: '/painel-cobranca.webp', url: 'app.lenext.com.br/cobranca' },
+  { src: '/parcelas-receber.webp', url: 'app.lenext.com.br/recebiveis' },
+  { src: '/relatorio-bacen.webp', url: 'app.lenext.com.br/bacen-scr' },
+  { src: '/painel-leads.webp', url: 'app.lenext.com.br/leads' },
 ]
 
-// clona o primeiro slide no fim para um loop contínuo (sem "rebobinar").
-const all = [...slides, slides[0]]
-
 export default function ProductCarousel() {
+  const { t } = useLanguage()
+  const p = t.productCarousel
+  const slides = slideMeta.map((s, idx) => ({ ...s, label: p.slides[idx].label }))
+  // clona o primeiro slide no fim para um loop contínuo (sem "rebobinar").
+  const all = [...slides, slides[0]]
   const n = slides.length
   const [i, setI] = useState(0)
   const [anim, setAnim] = useState(true)
@@ -135,7 +138,7 @@ export default function ProductCarousel() {
                 {!loaded[idx] && (
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-mist">
                     <span className="h-9 w-9 animate-spin rounded-full border-[3px] border-line border-t-brand-orange" />
-                    <span className="text-xs">Carregando…</span>
+                    <span className="text-xs">{p.loading}</span>
                   </div>
                 )}
                 <img

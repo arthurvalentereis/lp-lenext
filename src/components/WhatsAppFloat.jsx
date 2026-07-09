@@ -1,12 +1,16 @@
-import { whatsappLink } from '../config'
+import { buildWhatsappLink } from '../config'
+import { useLanguage } from '../i18n/LanguageContext'
 
 export default function WhatsAppFloat() {
+  const { t } = useLanguage()
+  const whatsappLink = buildWhatsappLink(t.whatsappMessage)
+
   return (
     <a
       href={whatsappLink}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Falar no WhatsApp"
+      aria-label={t.whatsappFloat.ariaLabel}
       className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] shadow-lg shadow-black/40 transition hover:scale-105"
     >
       <svg className="h-7 w-7 text-white" viewBox="0 0 24 24" fill="currentColor">

@@ -59,6 +59,74 @@
       0 12px 32px -20px rgba(23, 18, 38, 0.22);
   }
 
+  /* ===== Micro-interações (benchmark 2026: motion com significado) ===== */
+
+  /* Hover lift para cards: sobe levemente e ganha glow da marca */
+  .card-hover {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--color-brand-purple) 35%, var(--color-line));
+    box-shadow:
+      0 1px 2px rgba(23, 18, 38, 0.05),
+      0 24px 48px -20px rgba(89, 1, 177, 0.25);
+  }
+
+  /* Brilho que atravessa o botão primário no hover */
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-shine::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(255, 255, 255, 0.35) 50%, transparent 60%);
+    transform: translateX(-120%);
+  }
+  .btn-shine:hover::after {
+    transform: translateX(120%);
+    transition: transform 0.7s ease;
+  }
+
+  /* Grid pattern sutil para dar profundidade ao hero */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(89, 1, 177, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(89, 1, 177, 0.05) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 40%, transparent 100%);
+  }
+
+  /* Blobs de gradiente flutuando lentamente (fundo do hero/CTA) */
+  .float-slow {
+    animation: floaty 9s ease-in-out infinite;
+  }
+  .float-slower {
+    animation: floaty 13s ease-in-out infinite reverse;
+  }
+
+  /* Cards flutuantes do hero: deriva vertical sutil, dessincronizada */
+  .float-card-a { animation: floatcard 6s ease-in-out infinite; }
+  .float-card-b { animation: floatcard 7.5s ease-in-out 0.8s infinite; }
+  .float-card-c { animation: floatcard 9s ease-in-out 1.6s infinite; }
+
+  /* Marquee infinito de logos (pausa no hover) */
+  .marquee {
+    display: flex;
+    width: max-content;
+    animation: marquee 36s linear infinite;
+  }
+  .marquee-mask {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+  .marquee-mask:hover .marquee {
+    animation-play-state: paused;
+  }
+
   /* ===== Reveal ao rolar a tela =====
      .reveal: elemento isolado · .reveal-group: filhos diretos em cascata. */
   .reveal,
@@ -87,11 +155,39 @@
   .reveal-group.is-visible > *:nth-child(12) { transition-delay: 660ms; }
 }
 
+@keyframes floaty {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(2%, 4%, 0) scale(1.04); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes floatcard {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal,
   .reveal-group > * {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+  .marquee,
+  .float-slow,
+  .float-slower,
+  .float-card-a,
+  .float-card-b,
+  .float-card-c,
+  .animate-pulse,
+  .animate-ping {
+    animation: none !important;
+  }
+  .btn-shine::after {
+    display: none;
   }
 }
