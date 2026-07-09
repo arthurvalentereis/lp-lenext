@@ -5,7 +5,7 @@ export const translations = {
   pt: {
     header: {
       nav: ['Solução', 'Resultados', 'Funcionalidades', 'Segurança', 'Planos'],
-      cta: 'Falar com um consultor',
+      cta: 'Agende uma demo',
     },
 
     hero: {
@@ -17,7 +17,7 @@ export const translations = {
       descMid: ': cruza todos os birôs em segundos, aprova com segurança e cobra sozinho — inadimplência já reduzida em ',
       descStrong2: 'até 57%',
       descEnd: ' nos nossos clientes.',
-      ctaPrimary: 'Falar com um consultor',
+      ctaPrimary: 'Agende uma demo',
       ctaSecondary: 'Ver planos e preços',
       microcopy: 'Resposta em até 1 dia útil • Sem compromisso',
       trust: ['+150 empresas', 'R$ 7,5 bi+ analisados', 'Conformidade LGPD', 'ISO 27001'],
@@ -49,7 +49,7 @@ export const translations = {
         { pain: 'Perco dinheiro com inadimplência e fraude', gain: 'Até 57% menos inadimplência' },
         { pain: 'Relatórios manuais consomem o time', gain: 'Até 80% de economia com relatórios' },
       ],
-      cta: 'Falar com um consultor',
+      cta: 'Agende uma demo',
     },
 
     howItWorks: {
@@ -70,7 +70,7 @@ export const translations = {
           desc: 'Cada pedido chega com parecer completo e decisão sugerida. O que levava 2 horas agora leva minutos.',
         },
       ],
-      cta: 'Falar com um consultor',
+      cta: 'Agende uma demo',
     },
 
     results: {
@@ -94,7 +94,7 @@ export const translations = {
       titleHighlight: 'Todo o ciclo do crédito',
       desc: 'Do parecer à recuperação: motor de decisão, portais com a sua marca e cobrança automatizada — no mesmo lugar.',
       tabs: ['Motor de crédito', 'Portais whitelabel', 'Gestão de inadimplência', 'App de vendas & WhatsApp'],
-      ctaLabel: 'Falar com um consultor',
+      ctaLabel: 'Agende uma demo',
 
       engine: {
         titlePre: 'O motor de crédito que roda a ',
@@ -325,7 +325,7 @@ export const translations = {
         'Automações de notificação',
         'API Lenext',
       ],
-      cta: 'Falar com um consultor',
+      cta: 'Agende uma demo',
       microcopy: 'Resposta em até 1 dia útil • Sem compromisso',
     },
 
@@ -372,7 +372,7 @@ export const translations = {
       sentTitle: 'Recebemos seu contato!',
       sentDesc: 'Um consultor falará com você em breve.',
       calendlyCta: 'Prefere já agendar? Escolha um horário',
-      formTitle: 'Falar com um consultor',
+      formTitle: 'Agende uma demo',
       fields: {
         nome: { label: 'Nome', placeholder: 'Seu nome' },
         empresa: { label: 'Empresa', placeholder: 'Nome da empresa' },
@@ -397,13 +397,13 @@ export const translations = {
       ariaLabel: 'Falar no WhatsApp',
     },
 
-    whatsappMessage: 'Olá! Vim pela página do LETMESEE e quero falar com um consultor.',
+    whatsappMessage: 'Olá! Vim pela página do LETMESEE e quero falar com um especialista.',
   },
 
   en: {
     header: {
       nav: ['Solution', 'Results', 'Features', 'Security', 'Pricing'],
-      cta: 'Talk to a consultant',
+      cta: 'Schedule a demo',
     },
 
     hero: {
@@ -415,7 +415,7 @@ export const translations = {
       descMid: ': it cross-checks every credit bureau in seconds, approves safely, and collects on its own — default rates already cut by ',
       descStrong2: 'up to 57%',
       descEnd: ' for our clients.',
-      ctaPrimary: 'Talk to a consultant',
+      ctaPrimary: 'Schedule a demo',
       ctaSecondary: 'View plans and pricing',
       microcopy: 'Response within 1 business day • No commitment',
       trust: ['+150 companies', 'R$7.5B+ analyzed', 'LGPD compliant', 'ISO 27001'],
@@ -447,7 +447,7 @@ export const translations = {
         { pain: 'I lose money to defaults and fraud', gain: 'Up to 57% less default risk' },
         { pain: 'Manual reports eat up my team’s time', gain: 'Up to 80% savings on reporting' },
       ],
-      cta: 'Talk to a consultant',
+      cta: 'Schedule a demo',
     },
 
     howItWorks: {
@@ -468,7 +468,7 @@ export const translations = {
           desc: 'Every request arrives with a full assessment and a suggested decision. What took 2 hours now takes minutes.',
         },
       ],
-      cta: 'Talk to a consultant',
+      cta: 'Schedule a demo',
     },
 
     results: {
@@ -492,7 +492,7 @@ export const translations = {
       titleHighlight: 'The entire credit cycle',
       desc: 'From assessment to recovery: decision engine, branded portals, and automated collections — all in one place.',
       tabs: ['Credit engine', 'Whitelabel portals', 'Default management', 'Sales app & WhatsApp'],
-      ctaLabel: 'Talk to a consultant',
+      ctaLabel: 'Schedule a demo',
 
       engine: {
         titlePre: 'The credit engine that runs ',
@@ -709,7 +709,7 @@ export const translations = {
       titlePre: 'A complete plan for your ',
       titleHighlight: 'operation',
       titleEnd: '.',
-      desc: 'Everything you need to sell more on terms, safely. Custom pricing — talk to a consultant and get a free diagnosis.',
+      desc: 'Everything you need to sell more on terms, safely. Custom pricing — talk to a specialist and get a free diagnosis.',
       planName: 'LETMESEE Plan',
       price: 'Custom quote',
       planDesc: 'Complete platform, configured for your scenario.',
@@ -723,7 +723,7 @@ export const translations = {
         'Notification automations',
         'Lenext API',
       ],
-      cta: 'Talk to a consultant',
+      cta: 'Talk to a specialist',
       microcopy: 'Response within 1 business day • No commitment',
     },
 
@@ -765,19 +765,19 @@ export const translations = {
     contactCTA: {
       titlePre: 'Stop selling in the dark. ',
       titleHighlight: 'Start deciding with data.',
-      desc: 'Talk to a consultant and see LETMESEE applied to your scenario. Response within 1 business day, no commitment.',
+      desc: 'Talk to a specialist and see LETMESEE applied to your scenario. Response within 1 business day, no commitment.',
       whatsappCta: 'Prefer to talk now? Message us on WhatsApp',
       sentTitle: 'We received your message!',
-      sentDesc: 'A consultant will reach out to you shortly.',
+      sentDesc: 'A specialist will reach out to you shortly.',
       calendlyCta: 'Prefer to schedule now? Pick a time',
-      formTitle: 'Talk to a consultant',
+      formTitle: 'Talk to a specialist',
       fields: {
         nome: { label: 'Name', placeholder: 'Your name' },
         empresa: { label: 'Company', placeholder: 'Company name' },
         email: { label: 'Business email', placeholder: 'you@company.com' },
         telefone: { label: 'WhatsApp', placeholder: '(00) 00000-0000' },
       },
-      submitCta: 'I want to talk to a consultant',
+      submitCta: 'I want to talk to a specialist',
       disclaimer: 'By submitting, you agree to be contacted by Lenext. Your data is handled in accordance with LGPD.',
     },
 

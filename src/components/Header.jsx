@@ -27,7 +27,7 @@ export default function Header() {
         </nav>
         <div className="flex items-center gap-3">
           <LanguageSwitcher />
-          <Button href="#contato" variant="outline-orange" className="px-4 py-2 text-sm">
+          <Button href="#contato" variant="outline-orange" size="sm">
             {t.header.cta}
           </Button>
         </div>

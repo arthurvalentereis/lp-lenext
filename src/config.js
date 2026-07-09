@@ -4,7 +4,7 @@ export const config = {
   // WhatsApp do comercial (formato internacional, só dígitos).
   // Usando o telefone de contato informado — confirmar se é o WhatsApp comercial.
   whatsappNumber: '5521975487140',
-  whatsappMessage: 'Olá! Vim pela página do LETMESEE e quero falar com um consultor.',
+  whatsappMessage: 'Olá! Vim pela página do LETMESEE e quero falar com um especialista.',
 
   // Contato (rodapé).
   email: 'contato@lenext.com.br',

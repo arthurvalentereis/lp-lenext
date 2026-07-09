@@ -21,7 +21,7 @@ export default function Hero() {
         style={{ background: 'radial-gradient(circle, #ff6600 0%, transparent 70%)' }}
       />
 
-      <div className="reveal-group relative mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[1fr_1.3fr]">
+      <div className="reveal-group relative mx-auto grid w-full max-w-7xl items-center gap-10 lg:grid-cols-[1.15fr_1.2fr] lg:gap-20">
         {/* ESQUERDA: texto */}
         <div className="text-center lg:text-left">
           <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-line bg-ink-soft px-4 py-1.5 text-sm text-mist">
@@ -34,7 +34,7 @@ export default function Hero() {
 
           <h1 className="text-balance text-4xl font-extrabold leading-[1.1] sm:text-5xl">
             {h.titlePre}
-            <span className="text-brand-gradient">{h.titleHighlight}</span>.
+            <span className="text-mist">{h.titleHighlight}</span>.
           </h1>
 
           <p className="mx-auto mt-6 max-w-xl text-lg text-mist lg:mx-0">
@@ -46,7 +46,7 @@ export default function Hero() {
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:justify-center lg:justify-start">
-            <Button href="#contato" className="w-full sm:w-auto">
+            <Button href="#contato" variant="outline-gradient" className="w-full sm:w-auto">
               {h.ctaPrimary}
             </Button>
             <Button href="#planos" variant="ghost" className="w-full sm:w-auto">
