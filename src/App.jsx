@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import useReveal from './hooks/useReveal'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import IntegrationsBar from './components/IntegrationsBar'
@@ -20,27 +20,7 @@ import WhatsAppFloat from './components/WhatsAppFloat'
 
 export default function App() {
   // Revela elementos (.reveal / .reveal-group) ao entrarem na viewport.
-  useEffect(() => {
-    const els = document.querySelectorAll('.reveal, .reveal-group')
-    if (!('IntersectionObserver' in window)) {
-      els.forEach((el) => el.classList.add('is-visible'))
-      return
-    }
-    // Anima apenas na primeira entrada; re-animar ao rolar de volta é ruído.
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible')
-            io.unobserve(entry.target)
-          }
-        })
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
-    )
-    els.forEach((el) => io.observe(el))
-    return () => io.disconnect()
-  }, [])
+  useReveal()
 
   return (
     <>

@@ -397,6 +397,103 @@ export const translations = {
       ariaLabel: 'Falar no WhatsApp',
     },
 
+    resources: {
+      backToSite: 'Voltar ao site',
+      hub: {
+        eyebrow: 'Materiais gratuitos',
+        title: 'Conteúdos para quem decide crédito com inteligência',
+        subtitle: 'Guias, modelos e boas práticas para vender mais a prazo com segurança — feitos por quem entende de crédito B2B.',
+      },
+      ebook: {
+        eyebrow: 'E-book gratuito',
+        badge: 'Material exclusivo',
+        title: 'Política de Crédito: como escalar vendas a prazo sem aumentar a inadimplência',
+        subtitle: 'Um guia prático para estruturar e revisar a política de crédito da sua empresa e reduzir a inadimplência sem travar as vendas.',
+        bullets: [
+          'Como definir score, limite e prazo para cada perfil de cliente',
+          'Modelos prontos de regras de aprovação e negação',
+          'O passo a passo para reduzir inadimplência sem perder vendas',
+          'Checklist para automatizar a sua análise de crédito',
+        ],
+        formTitle: 'Preencha para baixar gratuitamente',
+        fields: {
+          name: { label: 'Nome', placeholder: 'Seu nome' },
+          email: { label: 'E-mail corporativo', placeholder: 'voce@empresa.com.br' },
+        },
+        consent: 'Autorizo a Lenext a entrar em contato comigo por e-mail, WhatsApp ou telefone.',
+        download: 'Baixar e-book gratuito',
+        disabledHint: 'Preencha nome, e-mail e marque a autorização para liberar o download.',
+        privacy: 'Seus dados são tratados conforme a LGPD. Nada de spam.',
+        pageMeta: 'E-book gratuito: Política de Crédito | Lenext LETMESEE',
+        thanks: {
+          eyebrow: 'Download liberado',
+          title: 'Prontinho! Seu e-book já está baixando.',
+          desc: 'Aproveite a leitura — em poucos minutos você terá um roteiro claro para estruturar sua política de crédito.',
+          redownload: 'O download não começou? Clique para baixar novamente',
+          nextTitle: 'Que tal ir além do e-book?',
+          nextDesc: 'Veja na prática como o LETMESEE aplica tudo isso automaticamente na sua operação — dos birôs à cobrança.',
+          ctaDemo: 'Agende uma demo',
+          ctaExplore: 'Conhecer a plataforma',
+          proof: '+150 empresas já decidem crédito com a Lenext',
+        },
+      },
+      prompt: {
+        eyebrow: 'Prompt de IA · Pronto para usar',
+        badge: '100% gratuito',
+        title: 'Prompt de IA para Análise de Crédito, pronto para usar',
+        subtitle: 'Use IA para interpretar dados, avaliar riscos e tomar decisões de crédito com mais segurança.',
+        chips: ['Aplicação prática', 'Análise de riscos', 'Mais agilidade', '100% gratuito', 'IA', 'Análise de crédito'],
+        bullets: [
+          'Aplicação prática e imediata no seu fluxo de análise',
+          'Interpreta dados e avalia riscos de crédito com IA',
+          'Mais agilidade e segurança na tomada de decisão',
+          'Localiza documentos regulatórios na CVM (ITR, DFP, releases)',
+        ],
+        formTitle: 'Preencha para acessar o prompt',
+        fields: {
+          name: { label: 'Nome', placeholder: 'Seu nome' },
+          email: { label: 'E-mail corporativo', placeholder: 'voce@empresa.com.br' },
+        },
+        consent: 'Autorizo a Lenext a entrar em contato comigo por e-mail, WhatsApp ou telefone.',
+        unlock: 'Acessar o prompt gratuito',
+        disabledHint: 'Preencha nome, e-mail e marque a autorização para liberar o prompt.',
+        privacy: 'Seus dados são tratados conforme a LGPD. Nada de spam.',
+        pageMeta: 'Prompt de IA para Análise de Crédito | Lenext LETMESEE',
+        promptText: `Você é um especialista em documentos regulatórios da CVM (Comissão de Valores Mobiliários do Brasil). Sua tarefa é localizar o link direto do relatório de resultados ou ITR/DFP mais recente de uma empresa específica.
+
+Empresa: [INSIRA O NOME DA EMPRESA OU TICKER — ex.: Natura Cosméticos S.A. / Natura &Co Holding S.A. / NATU3]
+
+Busque no sistema oficial da CVM (https://www.rad.cvm.gov.br/ENET/ ou https://www.cvm.gov.br) os documentos mais recentes das seguintes categorias, na ordem de prioridade:
+1. ITR (Informações Trimestrais).
+2. DFP (Demonstrações Financeiras Padronizadas).
+3. Relatório de Resultados / Release de Resultados.
+4. Fato Relevante com demonstrações financeiras.
+
+Instruções obrigatórias:
+- Retorne apenas o documento mais recente disponível (priorize 2025 ou 2026).
+- Forneça: tipo exato do documento (ex.: ITR 1T26, DFP 2025), data do documento e data de envio à CVM.
+- Link DIRETO para download do PDF (preferencialmente frmDownloadDocumento.aspx ou frmExibirArquivoIPEExterno.aspx).
+- Se não encontrar link direto, forneça o link da página de consulta da empresa na CVM + instruções exatas de 1 clique para baixar.
+- Liste também o 2º e 3º documentos mais recentes para comparação.
+- Se houver mais de uma empresa com nome parecido, confirme o CNPJ ou código CVM correto.
+- Caso não encontre nada, explique exatamente o que pesquisou e sugira o próximo passo.
+
+Responda de forma curta e direta, só com os fatos pedidos. Não adicione explicações desnecessárias.`,
+        thanks: {
+          eyebrow: 'Prompt liberado',
+          title: 'Prontinho! Seu prompt está pronto para usar.',
+          desc: 'Copie o prompt abaixo e cole na sua ferramenta de IA favorita (ChatGPT, Claude, Gemini) para começar agora.',
+          copy: 'Copiar prompt',
+          copied: 'Copiado!',
+          nextTitle: 'Que tal ir além do prompt?',
+          nextDesc: 'Veja como o LETMESEE já faz análise de crédito de ponta a ponta — dos birôs à decisão — automaticamente.',
+          ctaDemo: 'Agende uma demo',
+          ctaExplore: 'Conhecer a plataforma',
+          proof: '+150 empresas já decidem crédito com a Lenext',
+        },
+      },
+    },
+
     whatsappMessage: 'Olá! Vim pela página do LETMESEE e quero falar com um especialista.',
   },
 
@@ -793,6 +890,103 @@ export const translations = {
 
     whatsappFloat: {
       ariaLabel: 'Chat on WhatsApp',
+    },
+
+    resources: {
+      backToSite: 'Back to site',
+      hub: {
+        eyebrow: 'Free resources',
+        title: 'Content for teams that decide credit intelligently',
+        subtitle: 'Guides, templates, and best practices to sell more on terms, safely — made by people who understand B2B credit.',
+      },
+      ebook: {
+        eyebrow: 'Free e-book',
+        badge: 'Exclusive material',
+        title: 'Credit Policy: how to scale credit sales without raising default rates',
+        subtitle: 'A practical guide to build (or review) your company’s credit policy and cut default risk without slowing down sales.',
+        bullets: [
+          'How to set score, limit, and terms for each customer profile',
+          'Ready-to-use approval and denial rule templates',
+          'The step-by-step to reduce default without losing sales',
+          'A checklist to automate your credit analysis',
+        ],
+        formTitle: 'Fill in to download for free',
+        fields: {
+          name: { label: 'Name', placeholder: 'Your name' },
+          email: { label: 'Business email', placeholder: 'you@company.com' },
+        },
+        consent: 'I authorize Lenext to contact me by email, WhatsApp, or phone.',
+        download: 'Download free e-book',
+        disabledHint: 'Fill in your name, email, and check the authorization to unlock the download.',
+        privacy: 'Your data is handled in accordance with LGPD. No spam.',
+        pageMeta: 'Free e-book: Credit Policy | Lenext LETMESEE',
+        thanks: {
+          eyebrow: 'Download unlocked',
+          title: 'All set! Your e-book is downloading.',
+          desc: 'Enjoy the read — in a few minutes you’ll have a clear roadmap to structure your credit policy.',
+          redownload: 'Download didn’t start? Click to download again',
+          nextTitle: 'Ready to go beyond the e-book?',
+          nextDesc: 'See how LETMESEE applies all of this automatically in your operation — from bureaus to collections.',
+          ctaDemo: 'Schedule a demo',
+          ctaExplore: 'Explore the platform',
+          proof: '+150 companies already decide credit with Lenext',
+        },
+      },
+      prompt: {
+        eyebrow: 'AI prompt · Ready to use',
+        badge: '100% free',
+        title: 'A ready-to-use AI prompt for Credit Analysis',
+        subtitle: 'Use AI to interpret data, assess risk, and make credit decisions with more confidence.',
+        chips: ['Practical use', 'Risk analysis', 'More agility', '100% free', 'AI', 'Credit analysis'],
+        bullets: [
+          'Practical, immediate use in your analysis workflow',
+          'Interprets data and assesses credit risk with AI',
+          'More agility and confidence in decision-making',
+          'Finds regulatory filings on CVM (ITR, DFP, releases)',
+        ],
+        formTitle: 'Fill in to access the prompt',
+        fields: {
+          name: { label: 'Name', placeholder: 'Your name' },
+          email: { label: 'Business email', placeholder: 'you@company.com' },
+        },
+        consent: 'I authorize Lenext to contact me by email, WhatsApp, or phone.',
+        unlock: 'Access the free prompt',
+        disabledHint: 'Fill in your name, email, and check the authorization to unlock the prompt.',
+        privacy: 'Your data is handled in accordance with LGPD. No spam.',
+        pageMeta: 'AI Prompt for Credit Analysis | Lenext LETMESEE',
+        promptText: `Você é um especialista em documentos regulatórios da CVM (Comissão de Valores Mobiliários do Brasil). Sua tarefa é localizar o link direto do relatório de resultados ou ITR/DFP mais recente de uma empresa específica.
+
+Empresa: [INSIRA O NOME DA EMPRESA OU TICKER — ex.: Natura Cosméticos S.A. / Natura &Co Holding S.A. / NATU3]
+
+Busque no sistema oficial da CVM (https://www.rad.cvm.gov.br/ENET/ ou https://www.cvm.gov.br) os documentos mais recentes das seguintes categorias, na ordem de prioridade:
+1. ITR (Informações Trimestrais).
+2. DFP (Demonstrações Financeiras Padronizadas).
+3. Relatório de Resultados / Release de Resultados.
+4. Fato Relevante com demonstrações financeiras.
+
+Instruções obrigatórias:
+- Retorne apenas o documento mais recente disponível (priorize 2025 ou 2026).
+- Forneça: tipo exato do documento (ex.: ITR 1T26, DFP 2025), data do documento e data de envio à CVM.
+- Link DIRETO para download do PDF (preferencialmente frmDownloadDocumento.aspx ou frmExibirArquivoIPEExterno.aspx).
+- Se não encontrar link direto, forneça o link da página de consulta da empresa na CVM + instruções exatas de 1 clique para baixar.
+- Liste também o 2º e 3º documentos mais recentes para comparação.
+- Se houver mais de uma empresa com nome parecido, confirme o CNPJ ou código CVM correto.
+- Caso não encontre nada, explique exatamente o que pesquisou e sugira o próximo passo.
+
+Responda de forma curta e direta, só com os fatos pedidos. Não adicione explicações desnecessárias.`,
+        thanks: {
+          eyebrow: 'Prompt unlocked',
+          title: 'All set! Your prompt is ready to use.',
+          desc: 'Copy the prompt below and paste it into your favorite AI tool (ChatGPT, Claude, Gemini) to start now.',
+          copy: 'Copy prompt',
+          copied: 'Copied!',
+          nextTitle: 'Ready to go beyond the prompt?',
+          nextDesc: 'See how LETMESEE already runs end-to-end credit analysis — from bureaus to decision — automatically.',
+          ctaDemo: 'Schedule a demo',
+          ctaExplore: 'Explore the platform',
+          proof: '+150 companies already decide credit with Lenext',
+        },
+      },
     },
 
     whatsappMessage: 'Hi! I found LETMESEE’s page and I’d like to talk to a consultant.',
