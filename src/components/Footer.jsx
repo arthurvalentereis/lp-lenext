@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { config } from '../config'
 import Logo from './ui/Logo'
 import { useLanguage } from '../i18n/LanguageContext'
@@ -21,7 +22,7 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-line bg-ink px-5 py-14">
-      <div className="mx-auto grid w-full max-w-6xl gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto grid w-full max-w-6xl gap-10 sm:grid-cols-2 lg:grid-cols-5">
         {/* 1. Marca */}
         <div>
           <Logo />
@@ -69,7 +70,42 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* 4. Contato */}
+        {/* 4. Conteúdos */}
+        <div>
+          <ColTitle>{f.conteudosTitle}</ColTitle>
+          <ul className="space-y-2.5 text-sm">
+            <li>
+              <Link
+                to="/resources/ebook-politica-credito"
+                className="text-mist transition hover:text-fg"
+              >
+                {f.conteudos.ebook}
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/resources/prompt-analise-credito"
+                className="text-mist transition hover:text-fg"
+              >
+                {f.conteudos.prompt}
+              </Link>
+            </li>
+            <li>
+              <span
+                className="inline-flex cursor-not-allowed items-center gap-2 text-mist/50"
+                aria-disabled="true"
+                title={f.conteudos.soon}
+              >
+                {f.conteudos.blog}
+                <span className="rounded-full border border-line bg-ink-soft px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-mist/70">
+                  {f.conteudos.soon}
+                </span>
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        {/* 5. Contato */}
         <div>
           <ColTitle>{f.contatoTitle}</ColTitle>
           <ul className="space-y-3 text-sm text-mist">
