@@ -162,7 +162,7 @@ export default function PromptAnaliseCredito() {
             </div>
           </div>
 
-          <LeadForm block={p} buttonLabel={p.unlock} buttonIcon={SparkIcon} onUnlock={unlock} />
+          <LeadForm block={p} buttonLabel={p.unlock} buttonIcon={SparkIcon} formType="prompt" onUnlock={unlock} />
         </div>
       )}
     </CaptureShell>

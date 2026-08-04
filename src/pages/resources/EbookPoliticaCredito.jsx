@@ -117,7 +117,7 @@ export default function EbookPoliticaCredito() {
             </div>
           </div>
 
-          <LeadForm block={e} buttonLabel={e.download} buttonIcon={DownloadIcon} onUnlock={unlock} />
+          <LeadForm block={e} buttonLabel={e.download} buttonIcon={DownloadIcon} formType="ebook" onUnlock={unlock} />
         </div>
       )}
     </CaptureShell>

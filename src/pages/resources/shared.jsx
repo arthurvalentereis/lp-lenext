@@ -7,6 +7,7 @@ import WhatsAppFloat from '../../components/WhatsAppFloat'
 import Button from '../../components/ui/Button'
 import useReveal from '../../hooks/useReveal'
 import { useLanguage } from '../../i18n/LanguageContext'
+import { submitLead } from '../../lib/submitLead'
 
 export const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -87,15 +88,34 @@ function Field({ label, name, type, placeholder, value, onChange }) {
 // Formulário de captação (nome, e-mail, autorização de contato).
 // O botão de entrega só é liberado quando os 3 campos são válidos.
 // `block` traz: formTitle, badge, fields, consent, disabledHint, privacy.
-export function LeadForm({ block, buttonLabel, buttonIcon, onUnlock }) {
+// `formType`: 'ebook' | 'prompt' | 'lead' — usado no e-mail para contato@lenext.com.br.
+export function LeadForm({ block, buttonLabel, buttonIcon, onUnlock, formType = 'lead' }) {
+  const { lang } = useLanguage()
   const [form, setForm] = useState({ name: '', email: '', consent: false })
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
   const canUnlock =
     form.name.trim().length > 1 && emailRe.test(form.email) && form.consent
 
-  function submit(ev) {
+  async function submit(ev) {
     ev.preventDefault()
-    if (!canUnlock) return
-    onUnlock()
+    if (!canUnlock || sending) return
+    setError('')
+    setSending(true)
+    try {
+      await submitLead({
+        form: formType,
+        name: form.name,
+        email: form.email,
+        consent: form.consent,
+        locale: lang,
+      })
+      onUnlock()
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Não foi possível enviar. Tente novamente.')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -136,10 +156,12 @@ export function LeadForm({ block, buttonLabel, buttonIcon, onUnlock }) {
             <span>{block.consent}</span>
           </label>
 
+          {error && <p className="text-sm text-red-400">{error}</p>}
+
           {canUnlock ? (
-            <Button as="button" type="submit" className="w-full">
+            <Button as="button" type="submit" className="w-full" disabled={sending}>
               {buttonIcon}
-              {buttonLabel}
+              {sending ? 'Enviando…' : buttonLabel}
             </Button>
           ) : (
             <div>

@@ -2,18 +2,39 @@ import { useState } from 'react'
 import Button from './ui/Button'
 import { config, buildWhatsappLink } from '../config'
 import { useLanguage } from '../i18n/LanguageContext'
+import { submitLead } from '../lib/submitLead'
 
 export default function ContactCTA() {
-  const { t } = useLanguage()
+  const { t, lang } = useLanguage()
   const c = t.contactCTA
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
   const whatsappLink = buildWhatsappLink(t.whatsappMessage)
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
-    // TODO: integrar com CRM/automação (config.formEndpoint).
-    // Por enquanto apenas confirma e oferece o atalho de WhatsApp/Calendly.
-    setSent(true)
+    setError('')
+    setSending(true)
+
+    const data = new FormData(e.currentTarget)
+
+    try {
+      await submitLead({
+        form: 'demo',
+        name: String(data.get('nome') || ''),
+        company: String(data.get('empresa') || ''),
+        email: String(data.get('email') || ''),
+        phone: String(data.get('telefone') || ''),
+        locale: lang,
+        consent: true,
+      })
+      setSent(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : c.errorFallback)
+    } finally {
+      setSending(false)
+    }
   }
 
   return (
@@ -70,8 +91,9 @@ export default function ContactCTA() {
               <Field label={c.fields.empresa.label} name="empresa" type="text" placeholder={c.fields.empresa.placeholder} required />
               <Field label={c.fields.email.label} name="email" type="email" placeholder={c.fields.email.placeholder} required />
               <Field label={c.fields.telefone.label} name="telefone" type="tel" placeholder={c.fields.telefone.placeholder} required />
-              <Button as="button" type="submit" className="w-full">
-                {c.submitCta}
+              {error && <p className="text-sm text-red-400">{error}</p>}
+              <Button as="button" type="submit" className="w-full" disabled={sending}>
+                {sending ? c.sendingCta : c.submitCta}
               </Button>
               <p className="text-center text-xs text-mist">{c.disclaimer}</p>
             </form>

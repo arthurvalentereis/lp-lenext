@@ -413,6 +413,8 @@ export const translations = {
         telefone: { label: 'WhatsApp', placeholder: '(00) 00000-0000' },
       },
       submitCta: 'Quero falar com um consultor',
+      sendingCta: 'Enviando…',
+      errorFallback: 'Não foi possível enviar. Tente novamente em instantes.',
       disclaimer: 'Ao enviar, você concorda em ser contatado pela Lenext. Seus dados são tratados conforme a LGPD.',
     },
 
@@ -941,6 +943,8 @@ Responda de forma curta e direta, só com os fatos pedidos. Não adicione explic
         telefone: { label: 'WhatsApp', placeholder: '(00) 00000-0000' },
       },
       submitCta: 'I want to talk to a specialist',
+      sendingCta: 'Sending…',
+      errorFallback: 'Could not send. Please try again in a moment.',
       disclaimer: 'By submitting, you agree to be contacted by Lenext. Your data is handled in accordance with LGPD.',
     },
 

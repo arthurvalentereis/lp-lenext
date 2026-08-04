@@ -3,7 +3,7 @@
 // Tamanhos: 'md' (padrão) e 'sm' (compacto, ex.: header). Mantido como prop dedicada
 // (em vez de className) porque utilitários conflitantes de padding não se sobrescrevem
 // de forma confiável via ordem de classes no Tailwind.
-export default function Button({ as = 'a', variant = 'primary', size = 'md', className = '', children, ...props }) {
+export default function Button({ as = 'a', variant = 'primary', size = 'md', className = '', children, disabled, ...props }) {
   const Tag = as
   const base =
     'inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange/70'
@@ -21,8 +21,14 @@ export default function Button({ as = 'a', variant = 'primary', size = 'md', cla
     'outline-gradient':
       'text-brand-gradient border border-brand-orange/50 hover:border-brand-orange hover:bg-brand-orange/5',
   }
+  const disabledCls = disabled ? ' pointer-events-none opacity-60' : ''
   return (
-    <Tag className={`${base} ${sizes[size]} ${variants[variant]} ${className}`} {...props}>
+    <Tag
+      className={`${base} ${sizes[size]} ${variants[variant]} ${className}${disabledCls}`}
+      disabled={disabled}
+      aria-disabled={disabled || undefined}
+      {...props}
+    >
       {children}
     </Tag>
   )
