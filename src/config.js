@@ -15,9 +15,8 @@ export const config = {
   // Link do Calendly (opcional) — usado como atalho "prefere já agendar?".
   calendlyUrl: '', // ex: 'https://calendly.com/lenext/consultoria'
 
-  // Para onde o formulário envia (endpoint). Por enquanto faz scroll/no-op.
-  // Integre depois com seu CRM/automação.
-  formEndpoint: '',
+  // Endpoint da Vercel Function que envia o lead para contato@lenext.com.br via Resend.
+  formEndpoint: '/api/contact',
 }
 
 export const whatsappLink = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(
