@@ -2,8 +2,7 @@ import Button from './ui/Button'
 import Logo from './ui/Logo'
 import LanguageSwitcher from './ui/LanguageSwitcher'
 import { useLanguage } from '../i18n/LanguageContext'
-
-const hrefs = ['#solucao', '#resultados', '#funcionalidades', '#seguranca', '#planos']
+import { NAV_ITEMS } from '../lib/navigation'
 
 export default function Header() {
   const { t } = useLanguage()
@@ -15,13 +14,13 @@ export default function Header() {
           <Logo />
         </a>
         <nav className="hidden items-center gap-7 md:flex">
-          {t.header.nav.map((label, idx) => (
+          {NAV_ITEMS.map((item, idx) => (
             <a
-              key={hrefs[idx]}
-              href={hrefs[idx]}
+              key={item.key}
+              href={item.hash}
               className="text-sm font-medium text-mist transition-colors hover:text-fg"
             >
-              {label}
+              {t.header.nav[idx]}
             </a>
           ))}
         </nav>

@@ -15,6 +15,7 @@ const FORM_LABELS = {
   demo: 'Agendar demo',
   ebook: 'Download e-book Política de Crédito',
   prompt: 'Acesso ao prompt de análise de crédito',
+  newsletter: 'Assinatura da newsletter do blog',
   lead: 'Lead genérico',
 }
 

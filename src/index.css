@@ -127,6 +127,123 @@
     animation-play-state: paused;
   }
 
+  /* ===== Tipografia de artigo (blog) =====
+     Escrita à mão em vez de @tailwindcss/typography: o plugin traria uma
+     paleta e uma escala próprias que teriam de ser sobrescritas quase por
+     inteiro para bater com os tokens da marca. */
+  .prose-lenext {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--color-fg);
+  }
+  .prose-lenext > * + * {
+    margin-top: 1.25em;
+  }
+  .prose-lenext h2 {
+    margin-top: 2.5em;
+    margin-bottom: 0.6em;
+    font-size: 1.6rem;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    scroll-margin-top: 6rem; /* header fixo não pode cobrir a âncora do sumário */
+  }
+  .prose-lenext h3 {
+    margin-top: 2em;
+    margin-bottom: 0.5em;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.35;
+    scroll-margin-top: 6rem;
+  }
+  .prose-lenext p,
+  .prose-lenext li {
+    color: var(--color-mist);
+  }
+  .prose-lenext strong {
+    color: var(--color-fg);
+    font-weight: 700;
+  }
+  .prose-lenext a {
+    color: var(--color-brand-purple);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  .prose-lenext a:hover {
+    color: var(--color-brand-orange);
+  }
+  .prose-lenext ul,
+  .prose-lenext ol {
+    padding-left: 1.35em;
+  }
+  .prose-lenext ul {
+    list-style: disc;
+  }
+  .prose-lenext ol {
+    list-style: decimal;
+  }
+  .prose-lenext li + li {
+    margin-top: 0.5em;
+  }
+  .prose-lenext li::marker {
+    color: var(--color-brand-orange);
+  }
+  .prose-lenext blockquote {
+    border-left: 3px solid var(--color-brand-orange);
+    padding-left: 1.1em;
+    font-style: normal;
+    color: var(--color-fg);
+  }
+  .prose-lenext code {
+    background: var(--color-ink-soft);
+    border: 1px solid var(--color-line);
+    border-radius: 0.35rem;
+    padding: 0.1em 0.35em;
+    font-size: 0.9em;
+  }
+  /* Tabela é peça central destes artigos (matriz de risco, alçadas, KPIs):
+     rola dentro do próprio container para nunca empurrar a página na horizontal. */
+  .prose-lenext .table-scroll {
+    overflow-x: auto;
+    margin-top: 1.75em;
+    border: 1px solid var(--color-line);
+    border-radius: 0.9rem;
+  }
+  .prose-lenext table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.94rem;
+  }
+  .prose-lenext thead {
+    background: var(--color-ink-soft);
+  }
+  .prose-lenext th {
+    text-align: left;
+    font-weight: 700;
+    color: var(--color-fg);
+  }
+  .prose-lenext th,
+  .prose-lenext td {
+    padding: 0.7rem 0.95rem;
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: top;
+    color: var(--color-mist);
+  }
+  .prose-lenext tbody tr:last-child td {
+    border-bottom: 0;
+  }
+  .prose-lenext hr {
+    margin-top: 2.5em;
+    border: 0;
+    border-top: 1px solid var(--color-line);
+  }
+  .prose-lenext img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.9rem;
+  }
+
   /* ===== Reveal ao rolar a tela =====
      .reveal: elemento isolado · .reveal-group: filhos diretos em cascata. */
   .reveal,

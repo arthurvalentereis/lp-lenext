@@ -91,16 +91,9 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <span
-                className="inline-flex cursor-not-allowed items-center gap-2 text-mist/50"
-                aria-disabled="true"
-                title={f.conteudos.soon}
-              >
+              <Link to="/blog" className="text-mist transition hover:text-fg">
                 {f.conteudos.blog}
-                <span className="rounded-full border border-line bg-ink-soft px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-mist/70">
-                  {f.conteudos.soon}
-                </span>
-              </span>
+              </Link>
             </li>
           </ul>
         </div>

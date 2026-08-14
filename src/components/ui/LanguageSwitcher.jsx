@@ -6,7 +6,10 @@ const languages = [
   { code: 'en', label: 'EN' },
 ]
 
-export default function LanguageSwitcher() {
+// `onSelect` permite que a página decida o que fazer com a escolha. O blog usa
+// para navegar até a URL do idioma (lá o idioma vive na rota, não só no
+// contexto); sem a prop, o comportamento é o de sempre — só trocar o contexto.
+export default function LanguageSwitcher({ onSelect }) {
   const { lang, setLang } = useLanguage()
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
@@ -51,6 +54,7 @@ export default function LanguageSwitcher() {
               onClick={() => {
                 setLang(l.code)
                 setOpen(false)
+                onSelect?.(l.code)
               }}
               className={`block w-full px-4 py-2.5 text-left text-sm transition-colors ${
                 l.code === lang
