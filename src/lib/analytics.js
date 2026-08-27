@@ -226,22 +226,37 @@ function instalarCliques() {
 }
 
 /** Uma seção conta como "vista" ao ficar 50% visível — não ao passar batido. */
+let observadorSecoes = null;
+const secoesVistas = new Set();
+
+function observarSecoes() {
+  if (!observadorSecoes) return;
+  document.querySelectorAll('section[id]').forEach((s) => observadorSecoes.observe(s));
+}
+
 function instalarSecoes() {
   if (typeof IntersectionObserver === 'undefined') return () => {};
-  const vistas = new Set();
-  const obs = new IntersectionObserver(
+  secoesVistas.clear();
+  observadorSecoes = new IntersectionObserver(
     (entradas) => {
       for (const entrada of entradas) {
         const id = entrada.target.id;
-        if (!entrada.isIntersecting || !id || vistas.has(id)) continue;
-        vistas.add(id);
+        if (!entrada.isIntersecting || !id) continue;
+        // A chave inclui a rota: a seção "contato" da home e a de outra
+        // página são coisas diferentes e devem contar separado.
+        const chave = `${window.location.pathname}#${id}`;
+        if (secoesVistas.has(chave)) continue;
+        secoesVistas.add(chave);
         registrar('secao_vista', { detalhe: id });
       }
     },
     { threshold: 0.5 }
   );
-  document.querySelectorAll('section[id]').forEach((s) => obs.observe(s));
-  return () => obs.disconnect();
+  observarSecoes();
+  return () => {
+    observadorSecoes?.disconnect();
+    observadorSecoes = null;
+  };
 }
 
 /**
@@ -299,6 +314,20 @@ export function iniciarMedicao({ ga4Id } = {}) {
   registrar('page_view');
 
   limpezas = [instalarCliques(), instalarSecoes(), instalarFormularios(), instalarSaida()];
+}
+
+/**
+ * Registra a troca de rota numa SPA.
+ *
+ * Sem isto, chegar em `/resources/ebook-politica-credito` pela navegação
+ * interna não deixaria rastro na nossa tabela — só no GA4 —, e é justamente
+ * a página que interessa medir. Também reobserva as seções, porque as da
+ * rota anterior saíram do DOM e as novas nunca foram observadas.
+ */
+export function registrarNavegacao() {
+  if (!ligado) return;
+  registrar('page_view');
+  observarSecoes();
 }
 
 /**

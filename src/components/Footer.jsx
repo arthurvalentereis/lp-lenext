@@ -76,8 +76,12 @@ export default function Footer() {
           <ColTitle>{f.conteudosTitle}</ColTitle>
           <ul className="space-y-2.5 text-sm">
             <li>
+              {/* data-rastreio fixa o rótulo na medição: sem ele, o texto vem
+                  do i18n e o mesmo link viraria duas linhas no relatório (uma
+                  por idioma). */}
               <Link
                 to="/resources/ebook-politica-credito"
+                data-rastreio="E-book Política de Crédito"
                 className="text-mist transition hover:text-fg"
               >
                 {f.conteudos.ebook}
@@ -86,6 +90,7 @@ export default function Footer() {
             <li>
               <Link
                 to="/resources/prompt-analise-credito"
+                data-rastreio="Prompt de análise de crédito"
                 className="text-mist transition hover:text-fg"
               >
                 {f.conteudos.prompt}

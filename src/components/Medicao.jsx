@@ -1,8 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useLocation } from 'react-router-dom'
 import BannerConsentimento from './BannerConsentimento'
 import { aoMudarConsentimento, consentiu } from '../lib/consentimento'
-import { iniciarMedicao, pararMedicao } from '../lib/analytics'
+import { iniciarMedicao, pararMedicao, registrarNavegacao } from '../lib/analytics'
 import { config } from '../config'
 
 /**
@@ -27,11 +27,21 @@ export default function Medicao() {
     })
   }, [])
 
-  // SPA: trocar de rota não recarrega a página, então o page_view do GA4
-  // precisa ser disparado na mão a cada navegação.
+  // SPA: trocar de rota não recarrega a página, então o page_view precisa ser
+  // disparado na mão a cada navegação — nos dois destinos.
+  const primeiraRota = useRef(true)
   useEffect(() => {
-    if (!consentiu() || typeof window.gtag !== 'function') return
-    window.gtag('event', 'page_view', { page_path: pathname })
+    // A primeira rota já foi registrada por `iniciarMedicao()`; contar de novo
+    // dobraria o page_view de quem entra direto na home.
+    if (primeiraRota.current) {
+      primeiraRota.current = false
+      return
+    }
+    if (!consentiu()) return
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'page_view', { page_path: pathname })
+    }
+    registrarNavegacao()
   }, [pathname])
 
   return <BannerConsentimento />
