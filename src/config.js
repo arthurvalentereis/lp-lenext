@@ -17,6 +17,11 @@ export const config = {
 
   // Endpoint da Vercel Function que envia o lead para contato@lenext.com.br via Resend.
   formEndpoint: '/api/contact',
+
+  // Measurement ID do GA4 (formato G-XXXXXXXXXX). Vem de VITE_GA4_ID nas
+  // variáveis de ambiente da Vercel — vazio desliga o GA4 sem quebrar nada.
+  // Mesmo preenchido, o GA4 só carrega depois do "aceitar" no banner.
+  ga4Id: import.meta.env.VITE_GA4_ID || '',
 }
 
 export const whatsappLink = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(

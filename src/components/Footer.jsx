@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { config } from '../config'
 import Logo from './ui/Logo'
 import { useLanguage } from '../i18n/LanguageContext'
+import { reabrirEscolha } from '../lib/consentimento'
 
 const institucionalHrefs = [
   { href: '/privacidade.html' },
@@ -132,6 +133,16 @@ export default function Footer() {
 
       <div className="mx-auto mt-10 w-full max-w-6xl border-t border-line pt-6 text-center text-xs text-mist">
         © {new Date().getFullYear()} {f.copyright}
+        {' · '}
+        {/* Revogar tem de ser tão fácil quanto consentir (LGPD art. 8º §5º):
+            reabre o banner para a pessoa trocar a escolha a qualquer momento. */}
+        <button
+          type="button"
+          onClick={reabrirEscolha}
+          className="underline underline-offset-2 transition hover:text-fg"
+        >
+          Preferências de medição
+        </button>
       </div>
     </footer>
   )

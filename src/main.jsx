@@ -7,12 +7,15 @@ import EbookPoliticaCredito from './pages/resources/EbookPoliticaCredito.jsx'
 import PromptAnaliseCredito from './pages/resources/PromptAnaliseCredito.jsx'
 import BlogIndex from './pages/blog/BlogIndex.jsx'
 import BlogPost from './pages/blog/BlogPost.jsx'
+import Medicao from './components/Medicao.jsx'
 import { LanguageProvider } from './i18n/LanguageContext.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <LanguageProvider>
       <BrowserRouter>
+        {/* Fora de <Routes>: vale em todas as páginas, não só na home. */}
+        <Medicao />
         <Routes>
           <Route path="/" element={<App />} />
 
