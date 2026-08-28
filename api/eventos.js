@@ -31,6 +31,15 @@ const TIPOS_ACEITOS = new Set([
   'form_start',
   'form_submit',
   'saida',
+  // Conversões nomeadas (ver EVENTOS_CONVERSAO em src/lib/analytics.js).
+  // lead_diagnostico está na lista mas nada dispara ainda — a ferramenta
+  // de diagnóstico (F1-06 no plano) não existe no código.
+  'lead_ebook',
+  'lead_prompt',
+  'lead_diagnostico',
+  'lead_demo',
+  'newsletter_signup',
+  'whatsapp_click',
 ]);
 
 /** Um lote maior que isto é ruído ou abuso — nunca uso legítimo. */

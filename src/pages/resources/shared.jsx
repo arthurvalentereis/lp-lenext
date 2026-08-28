@@ -8,8 +8,15 @@ import Button from '../../components/ui/Button'
 import useReveal from '../../hooks/useReveal'
 import { useLanguage } from '../../i18n/LanguageContext'
 import { submitLead } from '../../lib/submitLead'
+import { registrarConversao } from '../../lib/analytics'
 
 export const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+/** `formType` → evento de conversão nomeado (ver EVENTOS_CONVERSAO em lib/analytics.js). */
+const EVENTO_POR_FORM_TYPE = {
+  ebook: 'lead_ebook',
+  prompt: 'lead_prompt',
+}
 
 // Define título da aba + rola ao topo ao montar a página (SEO/analytics por rota).
 export function usePageMeta(title) {
@@ -110,6 +117,8 @@ export function LeadForm({ block, buttonLabel, buttonIcon, onUnlock, formType = 
         consent: form.consent,
         locale: lang,
       })
+      const evento = EVENTO_POR_FORM_TYPE[formType]
+      if (evento) registrarConversao(evento, { detalhe: formType })
       onUnlock()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Não foi possível enviar. Tente novamente.')

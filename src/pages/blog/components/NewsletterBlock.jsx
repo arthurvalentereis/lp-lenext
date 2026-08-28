@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Button from '../../../components/ui/Button'
 import { submitLead } from '../../../lib/submitLead'
+import { registrarConversao } from '../../../lib/analytics'
 import { useLanguage } from '../../../i18n/LanguageContext'
 
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -36,6 +37,7 @@ export default function NewsletterBlock() {
         consent: form.consent,
         locale: lang,
       })
+      registrarConversao('newsletter_signup', { detalhe: 'blog' })
       setSent(true)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Não foi possível enviar. Tente novamente.')

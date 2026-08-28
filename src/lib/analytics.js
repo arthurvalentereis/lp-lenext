@@ -187,6 +187,33 @@ function enviarParaGa4(tipo, dados) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Eventos de conversão nomeados                                       */
+/*                                                                     */
+/* cta_click/form_submit dizem que houve interação; estes dizem qual   */
+/* objetivo de negócio foi atingido — é o que GA4/Ads precisam para    */
+/* otimizar por conversão, não por clique (plano de aquisição, F2-01). */
+/*                                                                     */
+/* `lead_diagnostico` está na lista porque o plano já a nomeia, mas    */
+/* nada nesta base ainda dispara: a ferramenta de diagnóstico (F1-06)  */
+/* não existe no código ainda. Falta implementá-la, não só o evento.   */
+/* ------------------------------------------------------------------ */
+
+const EVENTOS_CONVERSAO = new Set([
+  'lead_ebook',
+  'lead_prompt',
+  'lead_diagnostico',
+  'lead_demo',
+  'newsletter_signup',
+  'whatsapp_click',
+]);
+
+/** Marca uma conversão nomeada — chamada pelos formulários após o envio confirmar sucesso. */
+export function registrarConversao(nome, dados = {}) {
+  if (!EVENTOS_CONVERSAO.has(nome)) return;
+  registrar(nome, dados);
+}
+
+/* ------------------------------------------------------------------ */
 /* Listeners                                                           */
 /* ------------------------------------------------------------------ */
 
@@ -208,6 +235,11 @@ function secaoDe(el) {
   return secao.id || null;
 }
 
+/** wa.me e api.whatsapp.com são os dois formatos de link que `buildWhatsappLink` pode gerar. */
+function ehLinkWhatsapp(href) {
+  return !!href && /^https:\/\/(wa\.me|api\.whatsapp\.com)\//.test(href);
+}
+
 function instalarCliques() {
   const aoClicar = (evento) => {
     const el = evento.target?.closest?.('a, button');
@@ -215,10 +247,16 @@ function instalarCliques() {
     const rotulo = rotuloDe(el);
     if (!rotulo) return;
     const secao = secaoDe(el);
+    const destino = el.getAttribute('href') || null;
     registrar('cta_click', {
       detalhe: secao ? `${secao} · ${rotulo}` : rotulo,
-      destino: el.getAttribute('href') || null,
+      destino,
     });
+    // Além do cta_click genérico, marca a conversão nomeada que os
+    // relatórios de mídia paga usam como meta de otimização.
+    if (ehLinkWhatsapp(destino)) {
+      registrarConversao('whatsapp_click', { detalhe: secao, destino });
+    }
   };
   // Fase de captura: um handler que chame stopPropagation não some com o dado.
   document.addEventListener('click', aoClicar, true);

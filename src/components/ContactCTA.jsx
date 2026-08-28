@@ -3,6 +3,7 @@ import Button from './ui/Button'
 import { config, buildWhatsappLink } from '../config'
 import { useLanguage } from '../i18n/LanguageContext'
 import { submitLead } from '../lib/submitLead'
+import { registrarConversao } from '../lib/analytics'
 
 export default function ContactCTA() {
   const { t, lang } = useLanguage()
@@ -29,6 +30,7 @@ export default function ContactCTA() {
         locale: lang,
         consent: true,
       })
+      registrarConversao('lead_demo', { detalhe: 'contato' })
       setSent(true)
     } catch (err) {
       setError(err instanceof Error ? err.message : c.errorFallback)
