@@ -2,7 +2,10 @@
 // Importado tanto pelo app quanto por scripts/prerender.mjs (Node), então não
 // pode depender de nada do Vite ou do navegador.
 
-export const SITE_URL = 'https://lenext.com.br'
+// www, não apex: a Vercel tem www.lenext.com.br como domínio primário e
+// redireciona lenext.com.br (308) pra ele — declarar canônico diferente do
+// que o servidor realmente serve confunde a indexação do Google.
+export const SITE_URL = 'https://www.lenext.com.br'
 export const SITE_NAME = 'Lenext'
 export const DEFAULT_OG_IMAGE = '/painel-credito.webp'
 
