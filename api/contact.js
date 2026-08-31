@@ -35,10 +35,12 @@ const FORM_LABELS = {
  * vez de contar o mesmo lead duas vezes. Falha aqui nunca derruba o envio
  * do lead: é sempre best-effort, best-effort mesmo.
  */
-async function reforcarConversaoMeta({ eventName, eventId, ip, userAgent, url }) {
+async function reforcarConversaoMeta({ eventName, eventId, ip, userAgent, url, devolverResultado }) {
   const pixelId = process.env.VITE_META_PIXEL_ID
   const token = process.env.META_CONVERSIONS_API_TOKEN
-  if (!pixelId || !token) return
+  if (!pixelId || !token) {
+    return devolverResultado ? { enviado: false, motivo: 'pixelId ou token ausente' } : undefined
+  }
 
   try {
     const resposta = await fetch(
@@ -63,11 +65,16 @@ async function reforcarConversaoMeta({ eventName, eventId, ip, userAgent, url })
         }),
       }
     )
+    const texto = await resposta.text()
     if (!resposta.ok) {
-      console.error('[contact] Meta CAPI falhou:', resposta.status, await resposta.text())
+      console.error('[contact] Meta CAPI falhou:', resposta.status, texto)
+    }
+    if (devolverResultado) {
+      return { enviado: resposta.ok, status: resposta.status, corpo: texto, ipEnviado: ip, userAgentEnviado: userAgent }
     }
   } catch (erro) {
     console.error('[contact] Meta CAPI erro inesperado:', erro)
+    if (devolverResultado) return { enviado: false, motivo: String(erro) }
   }
 }
 
@@ -162,6 +169,23 @@ export default async function handler(req, res) {
     const consent = Boolean(body.consent)
     const eventId = String(body.eventId || '').trim()
     const medicaoConsentida = Boolean(body.medicaoConsentida)
+
+    // DEBUG TEMPORÁRIO — ecoa o que chegou e testa o CAPI sem mandar e-mail.
+    if (req.query?.debug === '1') {
+      const resultadoCapi = await reforcarConversaoMeta({
+        eventName: 'Lead',
+        eventId: eventId || 'debug-post-sem-eventid',
+        ip: ipDoCliente(req),
+        userAgent: req.headers['user-agent'],
+        url: page,
+        devolverResultado: true,
+      })
+      res.status(200).json({
+        recebido: { eventId, medicaoConsentida, hasEventId: !!eventId },
+        capi: resultadoCapi,
+      })
+      return
+    }
 
     if (name.length < 2) {
       res.status(400).json({ error: 'Nome é obrigatório.' })
