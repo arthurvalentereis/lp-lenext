@@ -135,6 +135,16 @@ export default async function handler(req, res) {
     return
   }
 
+  // DEBUG TEMPORÁRIO — remover depois de diagnosticar o CAPI.
+  if (req.method === 'GET' && req.query?.debug === '1') {
+    res.status(200).json({
+      ip: ipDoCliente(req),
+      xForwardedFor: req.headers['x-forwarded-for'] || null,
+      userAgent: req.headers['user-agent'] || null,
+    })
+    return
+  }
+
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Método não permitido.' })
     return
