@@ -21,7 +21,7 @@ export default function ContactCTA() {
     const data = new FormData(e.currentTarget)
 
     try {
-      await submitLead({
+      const resultado = await submitLead({
         form: 'demo',
         name: String(data.get('nome') || ''),
         company: String(data.get('empresa') || ''),
@@ -30,7 +30,7 @@ export default function ContactCTA() {
         locale: lang,
         consent: true,
       })
-      registrarConversao('lead_demo', { detalhe: 'contato' })
+      registrarConversao('lead_demo', { detalhe: 'contato', eventId: resultado.eventId })
       setSent(true)
     } catch (err) {
       setError(err instanceof Error ? err.message : c.errorFallback)

@@ -230,11 +230,21 @@ const EVENTO_META = {
   whatsapp_click: 'Contact',
 };
 
+/**
+ * `dados.eventId`, quando presente, é o mesmo id que `submitLead()` já
+ * mandou pro servidor — repassado aqui como `eventID` pro Meta deduplicar
+ * o evento do Pixel com o reforço server-side do Conversions API.
+ */
 function enviarParaMeta(tipo, dados) {
   if (typeof window.fbq !== 'function') return;
   const eventoMeta = EVENTO_META[tipo];
   if (!eventoMeta) return;
-  window.fbq('track', eventoMeta, { content_name: tipo, content_category: dados.detalhe ?? undefined });
+  const customData = { content_name: tipo, content_category: dados.detalhe ?? undefined };
+  if (dados.eventId) {
+    window.fbq('track', eventoMeta, customData, { eventID: dados.eventId });
+  } else {
+    window.fbq('track', eventoMeta, customData);
+  }
 }
 
 /* ------------------------------------------------------------------ */

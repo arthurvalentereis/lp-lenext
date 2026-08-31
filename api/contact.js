@@ -2,12 +2,15 @@
  * POST /api/contact — recebe leads dos formulários da LP e notifica contato@lenext.com.br.
  *
  * Env (Vercel):
- *   RESEND_API_KEY — obrigatória
- *   RESEND_FROM    — remetente verificado, ex.: "Lenext <contato@newsletter.lenext.com.br>"
- *   CONTACT_TO     — opcional; padrão contato@lenext.com.br
+ *   RESEND_API_KEY              — obrigatória
+ *   RESEND_FROM                 — remetente verificado, ex.: "Lenext <contato@newsletter.lenext.com.br>"
+ *   CONTACT_TO                  — opcional; padrão contato@lenext.com.br
+ *   VITE_META_PIXEL_ID          — opcional; mesmo Pixel ID usado no navegador (src/config.js)
+ *   META_CONVERSIONS_API_TOKEN  — opcional; token gerado no Events Manager > API de Conversões
  */
 
 const RESEND_API_URL = 'https://api.resend.com'
+const META_CAPI_URL = 'https://graph.facebook.com/v21.0'
 const DEFAULT_TO = 'contato@lenext.com.br'
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -17,6 +20,62 @@ const FORM_LABELS = {
   prompt: 'Acesso ao prompt de análise de crédito',
   newsletter: 'Assinatura da newsletter do blog',
   lead: 'Lead genérico',
+}
+
+/**
+ * Reforço server-side do evento de conversão (Meta Conversions API) —
+ * sobrevive a bloqueador de anúncio e à perda de sinal do iOS, que o Pixel
+ * sozinho não sobrevive. Deliberadamente SEM PII (nome/e-mail/telefone):
+ * só IP e user-agent, os parâmetros aprovados na configuração do Events
+ * Manager — mandar dado pessoal identificável contradiria a política de
+ * privacidade ("não compartilha dados sob qualquer hipótese").
+ *
+ * `eventId` é o mesmo id que o Pixel do navegador manda (ver
+ * src/lib/submitLead.js e analytics.js) — é o que faz o Meta deduplicar em
+ * vez de contar o mesmo lead duas vezes. Falha aqui nunca derruba o envio
+ * do lead: é sempre best-effort, best-effort mesmo.
+ */
+async function reforcarConversaoMeta({ eventName, eventId, ip, userAgent, url }) {
+  const pixelId = process.env.VITE_META_PIXEL_ID
+  const token = process.env.META_CONVERSIONS_API_TOKEN
+  if (!pixelId || !token) return
+
+  try {
+    const resposta = await fetch(
+      `${META_CAPI_URL}/${pixelId}/events?access_token=${encodeURIComponent(token)}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          data: [
+            {
+              event_name: eventName,
+              event_id: eventId,
+              event_time: Math.floor(Date.now() / 1000),
+              action_source: 'website',
+              event_source_url: url || undefined,
+              user_data: {
+                client_ip_address: ip || undefined,
+                client_user_agent: userAgent || undefined,
+              },
+            },
+          ],
+        }),
+      }
+    )
+    if (!resposta.ok) {
+      console.error('[contact] Meta CAPI falhou:', resposta.status, await resposta.text())
+    }
+  } catch (erro) {
+    console.error('[contact] Meta CAPI erro inesperado:', erro)
+  }
+}
+
+/** IP real de quem preencheu — a Vercel entrega em x-forwarded-for (client, proxy1, proxy2...). */
+function ipDoCliente(req) {
+  const cabecalho = req.headers['x-forwarded-for']
+  if (!cabecalho) return null
+  return String(cabecalho).split(',')[0].trim() || null
 }
 
 function escapeHtml(value) {
@@ -91,6 +150,8 @@ export default async function handler(req, res) {
     const locale = String(body.locale || '').trim()
     const page = String(body.page || '').trim()
     const consent = Boolean(body.consent)
+    const eventId = String(body.eventId || '').trim()
+    const medicaoConsentida = Boolean(body.medicaoConsentida)
 
     if (name.length < 2) {
       res.status(400).json({ error: 'Nome é obrigatório.' })
@@ -141,6 +202,18 @@ export default async function handler(req, res) {
       console.error('[contact] Resend falhou:', resposta.status, data)
       res.status(502).json({ error: data?.message || 'Falha ao enviar e-mail.' })
       return
+    }
+
+    // Todo formulário desta rota é uma conversão "Lead" — o mesmo mapeamento
+    // que o Pixel do navegador usa (ver EVENTO_META em src/lib/analytics.js).
+    if (medicaoConsentida && eventId) {
+      await reforcarConversaoMeta({
+        eventName: 'Lead',
+        eventId,
+        ip: ipDoCliente(req),
+        userAgent: req.headers['user-agent'],
+        url: page,
+      })
     }
 
     res.status(200).json({ ok: true, id: data?.id || null })

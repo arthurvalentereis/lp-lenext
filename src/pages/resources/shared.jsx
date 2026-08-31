@@ -110,7 +110,7 @@ export function LeadForm({ block, buttonLabel, buttonIcon, onUnlock, formType = 
     setError('')
     setSending(true)
     try {
-      await submitLead({
+      const resultado = await submitLead({
         form: formType,
         name: form.name,
         email: form.email,
@@ -118,7 +118,7 @@ export function LeadForm({ block, buttonLabel, buttonIcon, onUnlock, formType = 
         locale: lang,
       })
       const evento = EVENTO_POR_FORM_TYPE[formType]
-      if (evento) registrarConversao(evento, { detalhe: formType })
+      if (evento) registrarConversao(evento, { detalhe: formType, eventId: resultado.eventId })
       onUnlock()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Não foi possível enviar. Tente novamente.')

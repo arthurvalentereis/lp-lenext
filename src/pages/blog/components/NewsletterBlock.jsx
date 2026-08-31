@@ -30,14 +30,14 @@ export default function NewsletterBlock() {
     setError('')
     setSending(true)
     try {
-      await submitLead({
+      const resultado = await submitLead({
         form: 'newsletter',
         name: form.name,
         email: form.email,
         consent: form.consent,
         locale: lang,
       })
-      registrarConversao('newsletter_signup', { detalhe: 'blog' })
+      registrarConversao('newsletter_signup', { detalhe: 'blog', eventId: resultado.eventId })
       setSent(true)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Não foi possível enviar. Tente novamente.')
