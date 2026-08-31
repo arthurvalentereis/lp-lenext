@@ -22,6 +22,10 @@ export const config = {
   // variáveis de ambiente da Vercel — vazio desliga o GA4 sem quebrar nada.
   // Mesmo preenchido, o GA4 só carrega depois do "aceitar" no banner.
   ga4Id: import.meta.env.VITE_GA4_ID || '',
+
+  // Pixel ID do Meta (Events Manager). Mesma regra do GA4: vazio desliga
+  // sem quebrar nada, e só carrega depois do "aceitar" no banner.
+  metaPixelId: import.meta.env.VITE_META_PIXEL_ID || '',
 }
 
 export const whatsappLink = `https://wa.me/${config.whatsappNumber}?text=${encodeURIComponent(

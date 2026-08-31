@@ -1,8 +1,9 @@
 /**
- * Medição da landing page: eventos próprios (Supabase) + GA4.
+ * Medição da landing page: eventos próprios (Supabase) + GA4 + Meta Pixel.
  *
  * Só roda depois de "aceitar" no banner — ver `consentimento.js`. Até lá,
- * `iniciarMedicao()` não instala listener nenhum e o GA4 não é baixado.
+ * `iniciarMedicao()` não instala listener nenhum e nem GA4 nem Meta Pixel
+ * são baixados.
  *
  * ------------------------------------------------------------------
  * Como a instrumentação alcança a página inteira
@@ -187,6 +188,56 @@ function enviarParaGa4(tipo, dados) {
 }
 
 /* ------------------------------------------------------------------ */
+/* Meta Pixel                                                          */
+/*                                                                     */
+/* Só carrega os eventos de CONVERSÃO nomeados (ver EVENTOS_CONVERSAO  */
+/* abaixo) — ao contrário do GA4/Radar, que também recebem cliques e   */
+/* seções vistas. O Pixel serve à otimização de anúncio, não à         */
+/* analytics de comportamento; mandar todo clique geraria ruído sem     */
+/* ajudar o algoritmo a aprender quem converte.                        */
+/* ------------------------------------------------------------------ */
+
+/** Carrega o fbevents.js — código-base fornecido pelo Meta Events Manager. */
+function carregarMetaPixel(pixelId) {
+  if (!pixelId || window.__metaPixelCarregado) return;
+  window.__metaPixelCarregado = true;
+
+  /* eslint-disable */
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  /* eslint-enable */
+
+  window.fbq('init', pixelId);
+  window.fbq('track', 'PageView');
+}
+
+/**
+ * Conversões nomeadas → evento padrão do Meta. Eventos padrão (Lead,
+ * Contact...) são o que o algoritmo de anúncio já sabe otimizar — um
+ * evento customizado não ganha o mesmo aprendizado entre contas. O nome
+ * original vai como `content_name`, pra diferenciar no relatório qual
+ * conversão foi (e-book, prompt, demo...).
+ */
+const EVENTO_META = {
+  lead_ebook: 'Lead',
+  lead_prompt: 'Lead',
+  lead_diagnostico: 'Lead',
+  lead_demo: 'Lead',
+  newsletter_signup: 'Lead',
+  whatsapp_click: 'Contact',
+};
+
+function enviarParaMeta(tipo, dados) {
+  if (typeof window.fbq !== 'function') return;
+  const eventoMeta = EVENTO_META[tipo];
+  if (!eventoMeta) return;
+  window.fbq('track', eventoMeta, { content_name: tipo, content_category: dados.detalhe ?? undefined });
+}
+
+/* ------------------------------------------------------------------ */
 /* Eventos de conversão nomeados                                       */
 /*                                                                     */
 /* cta_click/form_submit dizem que houve interação; estes dizem qual   */
@@ -211,6 +262,7 @@ const EVENTOS_CONVERSAO = new Set([
 export function registrarConversao(nome, dados = {}) {
   if (!EVENTOS_CONVERSAO.has(nome)) return;
   registrar(nome, dados);
+  enviarParaMeta(nome, dados);
 }
 
 /* ------------------------------------------------------------------ */
@@ -344,11 +396,12 @@ function instalarSaida() {
 /* ------------------------------------------------------------------ */
 
 /** Liga a medição, se e somente se houver consentimento. Idempotente. */
-export function iniciarMedicao({ ga4Id } = {}) {
+export function iniciarMedicao({ ga4Id, metaPixelId } = {}) {
   if (ligado || !consentiu()) return;
   ligado = true;
 
   carregarGa4(ga4Id);
+  carregarMetaPixel(metaPixelId);
   registrar('page_view');
 
   limpezas = [instalarCliques(), instalarSecoes(), instalarFormularios(), instalarSaida()];

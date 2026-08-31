@@ -19,10 +19,10 @@ export default function Medicao() {
   const { pathname } = useLocation()
 
   useEffect(() => {
-    if (consentiu()) iniciarMedicao({ ga4Id: config.ga4Id })
+    if (consentiu()) iniciarMedicao({ ga4Id: config.ga4Id, metaPixelId: config.metaPixelId })
 
     return aoMudarConsentimento((escolha) => {
-      if (escolha === 'aceito') iniciarMedicao({ ga4Id: config.ga4Id })
+      if (escolha === 'aceito') iniciarMedicao({ ga4Id: config.ga4Id, metaPixelId: config.metaPixelId })
       else pararMedicao()
     })
   }, [])
@@ -40,6 +40,9 @@ export default function Medicao() {
     if (!consentiu()) return
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'page_view', { page_path: pathname })
+    }
+    if (typeof window.fbq === 'function') {
+      window.fbq('track', 'PageView')
     }
     registrarNavegacao()
   }, [pathname])
