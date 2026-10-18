@@ -56,25 +56,49 @@ function sessaoId() {
   }
 }
 
+const CHAVE_UTM = 'lenext:utm';
+
+/** UTMs da URL atual, ou `null` se ela não traz nenhum. */
+function utmDaUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const daUrl = {
+    source: params.get('utm_source'),
+    medium: params.get('utm_medium'),
+    campaign: params.get('utm_campaign'),
+    content: params.get('utm_content'),
+    term: params.get('utm_term'),
+  };
+  return Object.values(daUrl).some(Boolean) ? daUrl : null;
+}
+
 /**
  * UTMs da URL atual, guardados na sessão: a pessoa navega para outra rota e a
  * origem se perde da URL, mas continua sendo a mesma visita.
  */
 function utmDaSessao() {
-  const CHAVE_UTM = 'lenext:utm';
   try {
-    const params = new URLSearchParams(window.location.search);
-    const daUrl = {
-      source: params.get('utm_source'),
-      medium: params.get('utm_medium'),
-      campaign: params.get('utm_campaign'),
-      content: params.get('utm_content'),
-      term: params.get('utm_term'),
-    };
-    if (Object.values(daUrl).some(Boolean)) {
+    const daUrl = utmDaUrl();
+    if (daUrl) {
       window.sessionStorage.setItem(CHAVE_UTM, JSON.stringify(daUrl));
       return daUrl;
     }
+    const salvo = window.sessionStorage.getItem(CHAVE_UTM);
+    return salvo ? JSON.parse(salvo) : {};
+  } catch {
+    return {};
+  }
+}
+
+/**
+ * Origem da visita para o lead (formulário). Só LÊ: sem consentimento de
+ * medição a sessão nunca guardou UTM, e o formulário não passa a guardar —
+ * vale então só o que estiver na URL atual. Com consentimento, a navegação
+ * entre rotas não perde a origem.
+ */
+export function utmParaLead() {
+  try {
+    const daUrl = utmDaUrl();
+    if (daUrl) return daUrl;
     const salvo = window.sessionStorage.getItem(CHAVE_UTM);
     return salvo ? JSON.parse(salvo) : {};
   } catch {

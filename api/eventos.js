@@ -24,6 +24,8 @@
  *   SUPABASE_SERVICE_ROLE_KEY   — obrigatória; só existe no servidor
  */
 
+import { supabase, texto } from './_supabase.js';
+
 const TIPOS_ACEITOS = new Set([
   'page_view',
   'cta_click',
@@ -45,12 +47,6 @@ const TIPOS_ACEITOS = new Set([
 /** Um lote maior que isto é ruído ou abuso — nunca uso legítimo. */
 const MAX_EVENTOS_POR_LOTE = 30;
 const MAX_TEXTO = 200;
-
-function texto(valor, limite = MAX_TEXTO) {
-  if (typeof valor !== 'string') return null;
-  const limpo = valor.trim().replace(/\s+/g, ' ');
-  return limpo ? limpo.slice(0, limite) : null;
-}
 
 /**
  * Só o host do referrer. A URL inteira pode carregar termo de busca ou dado
@@ -91,27 +87,7 @@ function linhaDoEvento(bruto, sessaoId) {
 }
 
 async function gravar(linhas) {
-  const url = process.env.SUPABASE_URL;
-  const chave = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  if (!url || !chave) {
-    throw new Error('SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY não configuradas.');
-  }
-
-  const resposta = await fetch(`${url.replace(/\/+$/, '')}/rest/v1/lp_eventos`, {
-    method: 'POST',
-    headers: {
-      apikey: chave,
-      Authorization: `Bearer ${chave}`,
-      'Content-Type': 'application/json',
-      Prefer: 'return=minimal',
-    },
-    body: JSON.stringify(linhas),
-  });
-
-  if (!resposta.ok) {
-    const corpo = await resposta.text();
-    throw new Error(`Supabase ${resposta.status}: ${corpo.slice(0, 300)}`);
-  }
+  await supabase('lp_eventos', { method: 'POST', body: linhas, prefer: 'return=minimal' });
 }
 
 export default async function handler(req, res) {
