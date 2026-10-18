@@ -7,7 +7,11 @@
  *   CONTACT_TO                  — opcional; padrão contato@lenext.com.br
  *   VITE_META_PIXEL_ID          — opcional; mesmo Pixel ID usado no navegador (src/config.js)
  *   META_CONVERSIONS_API_TOKEN  — opcional; token gerado no Events Manager > API de Conversões
+ *   SUPABASE_URL                — grava o lead em `leads`/`eventos_lead` (ver api/_leads.js)
+ *   SUPABASE_SERVICE_ROLE_KEY   — idem; sem as duas, o lead só segue por e-mail
  */
+
+import { registrarLead } from './_leads.js'
 
 const RESEND_API_URL = 'https://api.resend.com'
 const META_CAPI_URL = 'https://graph.facebook.com/v21.0'
@@ -152,6 +156,7 @@ export default async function handler(req, res) {
     const consent = Boolean(body.consent)
     const eventId = String(body.eventId || '').trim()
     const medicaoConsentida = Boolean(body.medicaoConsentida)
+    const utm = body.utm && typeof body.utm === 'object' ? body.utm : {}
 
     if (name.length < 2) {
       res.status(400).json({ error: 'Nome é obrigatório.' })
@@ -170,6 +175,15 @@ export default async function handler(req, res) {
       console.error('[contact] RESEND_API_KEY ou RESEND_FROM ausente')
       res.status(500).json({ error: 'Envio de e-mail não configurado no servidor.' })
       return
+    }
+
+    // O lead vai para o banco antes do e-mail: se o Resend cair, o contato
+    // não se perde. O caminho inverso também vale — banco fora do ar não
+    // pode impedir a notificação, então a falha só é logada.
+    try {
+      await registrarLead({ form, name, email, company, phone, consent, page, locale, eventId, utm })
+    } catch (erro) {
+      console.error('[contact] falha ao gravar lead no Supabase:', erro)
     }
 
     const formLabel = FORM_LABELS[form] || form

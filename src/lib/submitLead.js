@@ -1,8 +1,9 @@
 import { config } from '../config'
 import { consentiu } from './consentimento'
+import { utmParaLead } from './analytics'
 
 /**
- * Envia lead para /api/contact (Vercel Function → Resend → contato@lenext.com.br
+ * Envia lead para /api/contact (Vercel Function → Supabase `leads` + Resend → contato@lenext.com.br
  * → reforço server-side pro Meta Conversions API, sem PII, se houver consentimento).
  *
  * `eventId` é gerado aqui e devolvido no retorno: quem chama passa o mesmo id
@@ -23,6 +24,8 @@ export async function submitLead(payload) {
     body: JSON.stringify({
       ...payload,
       page: typeof window !== 'undefined' ? window.location.href : '',
+      // Origem da visita: vai com o lead para o Supabase (atribuição de canal).
+      utm: typeof window !== 'undefined' ? utmParaLead() : {},
       eventId,
       // Só o servidor manda o reforço pro Meta se a pessoa consentiu a
       // medição — mesma regra que já vale pro Pixel do navegador.
